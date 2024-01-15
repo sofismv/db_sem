@@ -39,7 +39,7 @@ FROM table_reference_comma_list -- список таблиц
 * `sum()` - сумма всех выбранных значений поля
 * `avg()` - среднее всех выбранных значений поля
 					 					
-#### 1.5 Полезные функции
+#### 1.4 Полезные функции
 
 Иногда бывает полезно использовать в запросе специальные функции:
 * `IN` - принадлежность определенному набору значений:
@@ -47,6 +47,7 @@ FROM table_reference_comma_list -- список таблиц
 * `BETWEEN` - принадлежность определенному интервалу значений:
 `X BETWEEN A AND B` <span>&#8803;</span> (X >= A and X <= B) or (X <= A and X >= B)
 * `LIKE` - удовлетворение текста паттерну: `X LIKE '0%abc_0'`, где `_` - ровно 1 символ, а `%` - любая последовательность символов (в том числе нулевой длины).
+* `SIMILAR TO` - удовлетворение текста регулярному выражению SQL (похожи на POSIX): `'abc' SIMILAR TO '%(b|d)%'`
 * `IF ... THEN ... [ELSIF ... THEN ... ELSE ...] END IF` - ветвления, **пример**:
 ```postgresql
 SELECT
@@ -88,6 +89,25 @@ FROM
 ```
 * [Еще немного полезностей](https://postgrespro.ru/docs/postgresql/9.5/functions-conditional)
 
+#### 1.5 Работа с датами
+
+Есть 4 основных способа хранения значений времени в PostgreSQL:   
+
+| data type  |  description | example  | output |
+|---|---|---|---|
+|  TIMESTAMP |  date and time |  `TIMESTAMP '2023-04-10 10:39:37'` |  2023-04-10T10:39:37 |
+| DATE  | date (no time)  | `DATE '2023-04-10 10:39:37'`  |  2023-04-10 |
+|  TIME |  time (no day) | `TIME '2023-04-10 10:39:37'` | 10:39:37  |
+| INTERVAL  | interval between two date/times  |  `TIME '2023-04-10 10:39:37'` | 1 day, 2:00:10 |
+
+* Сегодняшнюю дату можно найти так: `NOW()` (timestamp), `CURRENT_DATE` (date), `LOCALTIME` (текущее время)  
+* `DATE_TRUNC(‘[interval]’, time_column)` - позволяет округлить до месяца, года, числа и т.д.  
+Пример: `DATE_TRUNC(‘month’, DATE '2023-04-10')` вернёт `DATE '2023-04-01'`  
+`DATE_TRUNC(‘day’, TIMESTAMP '2023-04-10 10:39:37')` вернёт `TIMESTAMP '2023-04-10 00:00:00'`  
+* `TO_CHAR([date type], [pattern])` - позволяет форматировать дату в строку по шаблону  
+Пример: `TO_CHAR(DATE '2023-04-10', 'YY')` выведет 2 последние цифры года 23
+
+[Подробнее про to_char и виды шаблонов](https://www.postgresql.org/docs/current/functions-formatting.html)
 
 ### Практическая часть
   
