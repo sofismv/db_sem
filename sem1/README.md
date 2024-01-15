@@ -1,6 +1,6 @@
-## Тема 2. SQL-запросы
+## Тема 1. Базовые SQL-запросы
 
-### 1. Теоретическая справка
+### Теоретическая справка
 
 #### 1.0 Введение
 
@@ -9,60 +9,6 @@
 
 **Типы данных SQL:**
 <img src="img/img1_sql_datatypes.png"  width="500">
-
-**Операторы определения данных (Data Defenition Language):**
-
-1. `CREATE` – создание объектов БД
-```sql
-CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name(
-    col_name_1   datatype_1,
-    col_name_2   datatype_2,
-    ...
-    col_name_N   datatype_N
-);
-```
-
-2. `ALTER` – модификация объектов БД
-```sql
-ALTER TABLE table_name ADD column_name datatype;
-ALTER TABLE table_name DROP column_name;
-ALTER TABLE table_name RENAME column_name TO new_column_name;
-ALTER TABLE table_name ALTER column_name TYPE datatype;
-...
-```
-
-3. `DROP` – удаление объектов БД 
-```sql
-DROP TABLE [IF EXISTS] table_name;
-```
-
-4. `TRUNCATE` – удаление содержимого объекта БД (данные удаляются целым куском, нельзя удалять по условию)
-```sql
-TRUNCATE TABLE table_name;
-```
-
-**Операторы манипуляции данными (Data Manipulation Language):**
-
-1. `SELECT` – выбирает данные, удовлетворяющие заданным условиям
-2. `INSERT` – добавляет новые данные
-```sql
-INSERT INTO table_name [(comma_separated_column_names)] VALUES (comma_separated_values);
-```
-
-3. `UPDATE` – изменяет (обновляет) существующие данные
-```sql
-UPDATE table_name
-    SET update_assignment_comma_list
-WHERE conditional_experssion;
-```
-
-4. `DELETE` – удаляет существующие данные (данные удаляются построчно – можно задавать условие, "откатывать" удаление)
-```sql
-DELETE
-    FROM table_name
-[WHERE conditional_expression];
-```
-
 
 #### 1.1 Структура запроса
 
