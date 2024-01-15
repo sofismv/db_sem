@@ -38,21 +38,7 @@ FROM table_reference_comma_list -- список таблиц
 * `min()` - наименьшее из всех выбранных значений поля
 * `sum()` - сумма всех выбранных значений поля
 * `avg()` - среднее всех выбранных значений поля
-
 					 					
-#### 1.4 Операции соединения таблиц (JOIN)
-					
-Операции соединения делятся на 3 группы:
-					
-* `CROSS JOIN` - декартово произведение 2 таблиц
-* `INNER JOIN` - соединение 2 таблиц по условию. В результирующую выборку попадут только те записи, которые удовлетворяют условию соединения
-* `OUTER JOIN` - соединение 2 таблиц по условию. В результирующую выборку могут попасть записи, которые не удовлетворяют условию соединения: 
-    * `LEFT (OUTER) JOIN` - все строки "левой" таблицы попадают в итоговую выборку
-    * `RIGHT (OUTER) JOIN` - все строки "правой" таблицы попадают в итоговую выборку 
-    * `FULL (OUTER) JOIN` - все строки обеих таблиц попадают в итоговую выборку
-
-<img src="img/img3_sql_join.png"  width="500">
-
 #### 1.5 Полезные функции
 
 Иногда бывает полезно использовать в запросе специальные функции:
@@ -102,44 +88,6 @@ FROM
 ```
 * [Еще немного полезностей](https://postgrespro.ru/docs/postgresql/9.5/functions-conditional)
 
-#### 1.6 Ключевое слово `WITH`
-`WITH` предоставляет способ записывать дополнительные операторы для применения в больших запросах. 
-Эти операторы, которые также называют общими табличными выражениями (Common Table Expressions, CTE), 
-можно представить как определения временных таблиц, существующих только для одного запроса. 
-Более подробно про СТЕ будет на следующих семинарах.
-**Пример**:
-```postgresql
-WITH 
-    regional_sales AS (
-        SELECT 
-            region, 
-            SUM(amount) AS total_sales
-        FROM 
-            orders
-        GROUP BY 
-            region
-    ), 
-    top_regions AS (
-        SELECT 
-            region
-        FROM 
-            regional_sales
-        WHERE 
-            total_sales > (SELECT SUM(total_sales)/10 FROM regional_sales)
-   )
-SELECT 
-    region,
-    product,
-    SUM(quantity) AS product_units,
-    SUM(amount) AS product_sales
-FROM 
-    orders
-WHERE 
-    region IN (SELECT region FROM top_regions)
-GROUP BY 
-    region, 
-    product;
-```
 
 ### 2. Практическое задание
 
